@@ -1,0 +1,107 @@
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+public class Menu {
+
+    private static ArrayList<Hospede> hospedes = new ArrayList<>();
+
+    public static void main(String[] args) {
+        if (Arquivo.arquivoExiste("Hospede.txt")) {
+            hospedes = (ArrayList<Hospede>) Hospede.carregarHospedesDoArquivo();
+        }
+        menuPrincipal();
+    }
+
+    private static void menuPrincipal() {
+        while (true) {
+            System.out.println("==== Menu Principal ====");
+            System.out.println();
+            System.out.println("1 - Cadastrar hospede");
+            System.out.println("2 - Fazer Reserva");
+            System.out.println("3 - Listar Hospedes");
+            System.out.println("4 - Listar Reservas");
+            System.out.println("5 - Cancelar/Alterar Reserva");
+            System.out.println("6 - Sair");
+            System.out.println();
+            System.out.println("Escolha uma das opcoes:");
+            var escolha = lerDados.lerInt();
+
+            switch (escolha) {
+                case 1:
+                    cadastrarHospede();
+                    break;
+                case 2:
+                    suites.ReservaDeQuartos();
+                    break;
+                case 3:
+                    listarHospedes();
+                    break;
+                case 4:
+                    suites.exibirQuartos(true);
+                    break;
+                case 5:
+                    suites.cancelarReserva();
+                    break;
+                case 6:
+                    return;
+                default:
+                    System.out.println("Tente novamente.");
+                    break;
+            }
+        }
+    }
+
+    public static Hospede cadastrarHospede() {
+        System.out.println("---- Cadastro de Hospedes ----");
+        System.out.println();
+        System.out.println("Nome: ");
+        String nome = lerDados.lerTexto();
+
+        System.out.println("Data de nascimento: ");
+        LocalDate dataDeNascimento = lerDados.lerData();
+
+        System.out.println("CPF/Passaporte/RNE (Digite somente numeros): ");
+        String cpfPassaporteRne = lerDados.lerTexto();
+
+        System.out.println("Nacionalidade: ");
+        String nacionalidade = lerDados.lerTexto();
+
+        System.out.println("Endereço: ");
+        String endereco = lerDados.lerTexto();
+
+        System.out.println("Número: ");
+        int numeroEndereco = lerDados.lerInt();
+
+        System.out.println("Complemento: ");
+        String complementoEndereco = lerDados.lerTexto();
+
+        System.out.println("CEP (Digite somente números): ");
+        String cep = lerDados.lerTexto();
+
+        Hospede novoHospede = new Hospede(nome, dataDeNascimento, cpfPassaporteRne, nacionalidade, endereco, numeroEndereco, complementoEndereco, cep);
+        hospedes.add(novoHospede);
+        Hospede.salvarHospedesEmArquivo(hospedes);
+
+        System.out.println("Hospede cadastrado com sucesso!");
+        return novoHospede;
+    }
+
+    public static void listarHospedes() {
+        if (hospedes.isEmpty()) {
+            System.out.println("Não há hóspedes cadastrados.");
+        } else {
+            System.out.println("Lista de Hóspedes:");
+            for (Hospede hospede : hospedes) {
+                System.out.println("Nome: " + hospede.nome());
+                System.out.println("Data de Nascimento: " + hospede.dataDeNascimentoString());
+                System.out.println("CPF/Passaporte/RNE: " + hospede.cpfPassaporteRne());
+                System.out.println("Nacionalidade: " + hospede.nacionalidade());
+                System.out.println("Endereço: " + hospede.endereco());
+                System.out.println("Número: " + hospede.numero());
+                System.out.println("Complemento: " + hospede.complemento());
+                System.out.println("CEP: " + hospede.cep());
+                System.out.println();
+            }
+        }
+    }
+}
